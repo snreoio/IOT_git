@@ -1,0 +1,23 @@
+<!-- ==================== 14. Next.js 1 ==================== -->
+<!-- ===== DOM 메서드 예제 ===== -->
+<!-- 브라우저에서 이 파일을 그냥 열어보기 (Parcel 필요 없음) -->
+<html>
+  <body>
+    <div id="app"></div>     <!-- div는 영역을 구분하는 태그, 이 영역의 식별자로 app을 사용 -->
+    <script type="text/javascript">
+      // script 태그 안에 JavaScript 코드를 작성할 수 있음
+      const app = document.getElementById('app');           // id가 'app'인 태그 선택
+
+      const header = document.createElement('h1');          // h1 태그를 만들고 header 변수에 할당
+
+      const text = 'Develop. Preview. Ship.';
+      const headerContent = document.createTextNode(text);  // text 문자열을 노드로 생성
+
+      header.appendChild(headerContent);                    // text 노드를 h1 태그에 추가
+
+      app.appendChild(header);                              // h1(header) 태그를 div(app) 태그의 자식으로 추가
+
+      // <h1>Develop. Preview. Ship.</h1> 하나 만드는 데 6줄이 필요함 → React로 간단하게 만들 수 있다 (index.html)
+    </script>
+  </body>
+</html>

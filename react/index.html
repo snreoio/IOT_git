@@ -1,0 +1,255 @@
+<!-- ==================== 14. Next.js 1 ==================== -->
+<!-- 주석 처리 기준 : main.js와 같음. 뒤 단원과 이름(app, root, Header, HomePage)이 겹치는 앞 단원은 주석 처리, 마지막 단원만 실행 -->
+<!-- 브라우저에서 이 파일을 그냥 열어보기 (Parcel 필요 없음), 결과는 화면 + 개발자도구(F12) 콘솔에서 확인 -->
+<html>
+  <body>
+    <div id="app"></div>
+
+    <!-- React를 사용하려면 두 개의 JavaScript 파일을 로딩해야 함 -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- JSX를 사용하기 위해서 Babel 추가 (JSX → Babel → JavaScript → Browser → HTML) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- ===== React 시작하기 ===== (주석 : 일부러 에러를 내는 예제)
+         <h1>~~</h1>은 JSX 코드이고 JavaScript가 아니므로, Babel 없이 type="text/javascript"로 실행하면 에러 발생
+    <script>
+      const app = document.getElementById('app');
+      const root = ReactDOM.createRoot(app);             // root가 하나 있어야 함. div 태그가 root가 됨
+      root.render(<h1>Develop. Preview. Ship.</h1>);     // root에 <h1> 태그 추가 → SyntaxError
+    </script>
+    -->
+
+    <!-- Babel에서 변환할 코드를 알려주기 위해 script 태그에 type="text/jsx" 추가 -->
+    <script type="text/jsx">
+
+      // ===== React 기초 (Babel 추가) ===== (주석 : 뒤 단원과 app, root가 겹침)
+      // DOM 메서드 예제(dom.html)의 6줄 코드가 아래처럼 간단해짐
+      //const app = document.getElementById('app');
+      //const root = ReactDOM.createRoot(app);
+      //root.render(<h1>Develop. Preview. Ship.</h1>);
+
+      // ===== JSX 규칙 (참고) =====
+      // 1. Single root : 여러 태그를 반환할 때는 <> </> (Fragment) 또는 <div>로 하나로 감싸기
+      // 2. 모든 태그를 닫기 : <img ... />, <li>...</li>
+      // 3. camelCase : class → className, onclick → onClick
+
+      // ===== Components ===== (주석 : 뒤 단원과 app, root, Header가 겹침)
+      // 컴포넌트는 함수이다. 이름은 대문자로 시작, 호출할 때는 < /> 로 둘러싸기
+      //const app = document.getElementById("app")
+      //
+      //function Header() {
+      //  return <h1>Develop. Preview. Ship.</h1>;
+      //}
+      //const root = ReactDOM.createRoot(app);
+      //root.render(<Header />);
+
+      // ===== Nesting components ===== (주석 : 뒤 단원과 app, root, Header, HomePage가 겹침)
+      // HomePage() 컴포넌트 안에 Header() 컴포넌트를 포함 (HTML 태그가 다른 태그를 품는 것과 유사)
+      //const app = document.getElementById("app")
+      //
+      //function Header() {
+      //  return <h1>Develop. Preview. Ship.</h1>;
+      //}
+      //
+      //function HomePage() {
+      //  return (
+      //    <div>
+      //      <Header />
+      //    </div>
+      //  );
+      //}
+      //
+      //const root = ReactDOM.createRoot(app);
+      //root.render(<HomePage />);
+
+      // ===== Props ===== (주석 : 뒤 단원과 app, root, Header, HomePage가 겹침)
+      // Component가 함수라면 Props는 함수의 인자. data는 props의 형태로 위에서 아래로 흐른다
+      //const app = document.getElementById("app")
+      //
+      //function Header(props) {
+      //  console.log(props);                 // 콘솔에서 보면 props가 객체 → {title: 'React'}
+      //  return <h1>{props.title}</h1>;      // 중괄호 안의 코드는 JavaScript 문법을 적용
+      //}
+      //
+      //function HomePage() {
+      //  return (
+      //    <div>
+      //      <Header title="React" />        {/* title이라는 props를 Header 컴포넌트에 전달 */}
+      //    </div>
+      //  );
+      //}
+      //
+      //const root = ReactDOM.createRoot(app);
+      //root.render(<HomePage />);
+
+      // ===== Props (객체 분해) ===== (주석 : 뒤 단원과 app, root, Header, HomePage가 겹침)
+      // props 객체의 속성과 같은 이름의 변수를 중괄호로 묶으면 속성의 값을 받을 수 있다 (객체 분해)
+      //   const props = { title: "react" };
+      //   const {title} = props;
+      //   console.log(title);    // "react"
+      //const app = document.getElementById("app")
+      //
+      //function Header({title}) {
+      //  console.log(title);
+      //  return <h1>{title}</h1>;
+      //}
+      //
+      //function HomePage() {
+      //  return (
+      //    <div>
+      //      <Header title="React" />
+      //    </div>
+      //  );
+      //}
+      //
+      //const root = ReactDOM.createRoot(app);
+      //root.render(<HomePage />);
+
+      // ===== Props (함수 호출) ===== (주석 : 뒤 단원과 app, root, Header, HomePage가 겹침)
+      // 결과 : React / Default title / Hello
+      //const app = document.getElementById("app")
+      //
+      //function createTitle(title) {
+      //  if (title) {
+      //    return title;
+      //  } else {
+      //    return 'Default title';
+      //  }
+      //}
+      //
+      //function Header({ title }) {
+      //  return <h1>{createTitle(title)}</h1>;   // JavaScript처럼 호출
+      //}
+      //
+      //function HomePage() {
+      //  return (
+      //    <div>
+      //      <Header title="React" />
+      //      <Header/>
+      //      <Header title="Hello" />
+      //    </div>
+      //  );
+      //}
+      //
+      //const root = ReactDOM.createRoot(app);
+      //root.render(<HomePage />);
+
+      // ===== Props (배열과 map) ===== (주석 : 뒤 단원과 app, root, Header, HomePage가 겹침)
+      // array의 map 메서드로 array의 원소들에게 반복 작업을 할 수 있다
+      // key가 없으면 경고가 뜸 → 나중에 DOM이 <li>를 추적하고 동적으로 수정할 수 있게 하기 위함
+      //const app = document.getElementById("app")
+      //
+      //function createTitle(title) {
+      //  if (title) {
+      //    return title;
+      //  } else {
+      //    return 'Default title';
+      //  }
+      //}
+      //
+      //function Header({ title }) {
+      //  return <h1>{createTitle(title)}</h1>;
+      //}
+      //
+      //function HomePage() {
+      //  const names = ['Ada Lovelace', 'Grace Hopper', 'Margaret Hamilton'];   // array 형
+      //
+      //  return (
+      //    <div>
+      //      <Header title="Develop. Preview. Ship." />
+      //      <ul>
+      //        {names.map((name) => (
+      //          <li key={name}>{name}</li>
+      //        ))}
+      //      </ul>
+      //    </div>
+      //  );
+      //}
+      //
+      //const root = ReactDOM.createRoot(app);
+      //root.render(<HomePage />);
+
+      // ===== event handler ===== (주석 : 뒤 단원과 app, root, Header, HomePage가 겹침)
+      // "Like" 버튼에 onClick 이벤트 추가 (이벤트 이름은 camelCase). handleClick()은 클릭 시 실행되는 함수
+      //const app = document.getElementById("app")
+      //
+      //function createTitle(title) {
+      //  if (title) {
+      //    return title;
+      //  } else {
+      //    return 'Default title';
+      //  }
+      //}
+      //
+      //function Header({ title }) {
+      //  return <h1>{createTitle(title)}</h1>;
+      //}
+      //
+      //function HomePage() {
+      //  const names = ['Ada Lovelace', 'Grace Hopper', 'Margaret Hamilton'];
+      //
+      //  function handleClick() {
+      //    console.log('increment like count');
+      //  }
+      //
+      //  return (
+      //    <div>
+      //      <Header title="Develop. Preview. Ship." />
+      //      <ul>
+      //        {names.map((name) => (
+      //          <li key={name}>{name}</li>
+      //        ))}
+      //      </ul>
+      //      <button onClick={handleClick}>Like</button>
+      //    </div>
+      //  );
+      //}
+      //
+      //const root = ReactDOM.createRoot(app);
+      //root.render(<HomePage />);
+
+      // ===== State =====
+      // React에는 hooks라고 불리는 함수들이 있음. state를 관리하는 hook은 useState()
+      // state는 시간에 따라 변경되는 UI의 정보 (예: Like 버튼을 누른 횟수)
+      const app = document.getElementById("app")
+
+      function createTitle(title) {
+        if (title) {
+          return title;
+        } else {
+          return 'Default title';
+        }
+      }
+
+      function Header({ title }) {
+        return <h1>{createTitle(title)}</h1>;
+      }
+
+      function HomePage() {
+        const names = ['Ada Lovelace', 'Grace Hopper', 'Margaret Hamilton'];
+        // likes : 상태의 값 저장, setLikes : 상태의 값을 변경하는 함수, useState(0) : 상태의 초기값을 0으로 설정
+        const [likes, setLikes] = React.useState(0);
+
+        function handleClick() {
+          setLikes(likes + 1);   // 클릭할 때마다 likes를 1 늘린 값으로 상태를 바꿈 → 화면이 다시 그려짐
+        }
+
+        return (
+          <div>
+            <Header title="Develop. Preview. Ship." />
+            <ul>
+              {names.map((name) => (
+                <li key={name}>{name}</li>
+              ))}
+            </ul>
+            <button onClick={handleClick}>Likes ({likes})</button>
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(app);
+      root.render(<HomePage />);
+    </script>
+  </body>
+</html>
