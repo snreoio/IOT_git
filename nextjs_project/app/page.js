@@ -1,11 +1,41 @@
+// ==================== 14. Next.js 2 ====================
+// ===== 클라이언트 컴포넌트 사용 (슬라이드 6~7) =====
+// react/index.html 에서 만든 Header, HomePage 를 page.js 로 옮김
+// Next.js 는 기본적으로 서버 컴포넌트 → 서버 컴포넌트는 useState() hook 을 지원하지 않음
+// 그래서 useState 를 쓰는 Like 버튼은 'use client' 를 붙인 like-button.js 로 분리
+import LikeButton from './like-button';
+
+function Header({ title }) {
+  return <h1>{title ? title : 'Default title'}</h1>;
+}
+
+// HomePage() 를 디폴트로 설정 (main 함수 개념)
+export default function HomePage() {
+  const names = ['Ada Lovelace', 'Grace Hopper', 'Margaret Hamilton'];
+
+  return (
+    <div>
+      <Header title="Develop. Preview. Ship." />
+      <ul>
+        {names.map((name) => (
+          <li key={name}>{name}</li>
+        ))}
+      </ul>
+      <LikeButton />
+    </div>
+  );
+}
+
+// ===== 14. Next.js 1 : create-next-app 기본 페이지 (끝난 단원이라 주석 처리) =====
+/*
 import Image from "next/image";
 import styles from "./page.module.css";
 
 // ===== 14. Next.js 1 : page.js =====
-// export default function Home() 가 main component
+// function Home() 가 main component
 // → 앞의 react/index.html 에서 만든 HomePage() 컴포넌트가 변환된 것으로 볼 수 있음
 // (슬라이드는 TypeScript를 No로 골라서 page.tsx 대신 page.js 로 생성됨)
-export default function Home() {
+function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -71,3 +101,4 @@ export default function Home() {
     </div>
   );
 }
+*/

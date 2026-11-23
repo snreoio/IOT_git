@@ -25,6 +25,16 @@ npm install      # 패키지 설치
 npm run dev      # 개발 서버 실행 → http://localhost:3000
 ```
 
+### Next.js 대시보드 실습 (`nextjs-dashboard/`)
+
+```bash
+cd nextjs-dashboard
+npm install      # 패키지 설치 (슬라이드는 pnpm i)
+npm run dev      # 개발 서버 실행 → http://localhost:3000
+```
+
+- 슬라이드는 `pnpm`을 쓰지만, 이 PC에서는 pnpm(corepack)이 서명 오류로 실행되지 않아 npm으로 생성함
+
 ## 파일 구성
 
 | 파일 | 설명 |
@@ -35,6 +45,8 @@ npm run dev      # 개발 서버 실행 → http://localhost:3000
 | `react/dom.html` | DOM 메서드로 `<h1>` 만들기 |
 | `react/index.html` | React 실습. 끝난 단원은 주석으로 남겨두고, 마지막 단원(State)만 실행 |
 | `nextjs_project/` | `npx create-next-app`으로 만든 Next.js 프로젝트 (App Router, JavaScript) |
+| `nextjs_project/app/like-button.js` | `'use client'` 클라이언트 컴포넌트 (Like 버튼) |
+| `nextjs-dashboard/` | Next.js Learn 대시보드 starter-example (TypeScript, Tailwind) |
 
 ---
 
@@ -79,3 +91,16 @@ npm run dev      # 개발 서버 실행 → http://localhost:3000
 - **event handler**: `<button onClick={handleClick}>`
 - **State**: `const [likes, setLikes] = React.useState(0)`으로 Like 버튼 클릭 횟수 표시
 - **Next.js로 확장** (`nextjs_project/`): `npx create-next-app` (TypeScript·ESLint·Tailwind·`src/`·import alias = No, App Router = Yes). `app/page.js`의 `Home()`이 main component, `app/layout.js`가 main layout, `npm run dev` → `localhost:3000`
+
+### 2026-11-23 · 14. Next.js 2
+
+- **서버와 클라이언트 환경**: 네트워크 경계, 사용자와 상호작용이 필요한 요소는 클라이언트, 여러 페이지에 공통인 요소는 서버. 서버 컴포넌트 렌더링 결과는 RSC payload로 클라이언트에 전송
+- **클라이언트 컴포넌트 사용** (`nextjs_project/`): `react/index.html`의 `Header`, `HomePage`를 `app/page.js`로 옮기고 `export default function HomePage()`. Next.js는 기본이 서버 컴포넌트라 `useState`를 못 씀 → `'use client'`를 붙인 `app/like-button.js`로 분리
+- **Dashboard 프로젝트 생성** (`nextjs-dashboard/`): `npx create-next-app@latest nextjs-dashboard --example ".../dashboard/starter-example"`
+- **폴더 구성**: `app/lib`(데이터 함수, `placeholder-data.ts`), `app/ui`(UI 컴포넌트), `public`(정적 파일). `.ts`는 TypeScript, `type Invoice = { ... status: 'pending' | 'paid' }`로 타입 정의
+- **Global styles**: `app/layout.tsx` 맨 윗줄에 `import '@/app/ui/global.css'`
+- **Tailwind**: `className="text-blue-500"`처럼 유틸리티 클래스로 스타일링
+- **CSS Modules**: `app/ui/home.module.css`의 `.shape`(검은 삼각형)를 `styles.shape`로 `page.tsx`에 적용
+- **clsx**: `app/ui/invoices/status.tsx`에서 `status`가 `pending`이면 회색, `paid`면 초록색
+- **Fonts**: `app/ui/fonts.ts`에 `Inter`(layout의 body), `Lusitana`(page의 `<p>`) 추가, `<AcmeLogo />` 주석 제거
+- **Images**: `next/image`의 `<Image>`로 `hero-desktop.png`(md 이상), `hero-mobile.png`(모바일) 추가
